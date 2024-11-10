@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EARNERS Sellers Page</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      max-width: 700px;
+      width: 100%;
+      background-color: #ffffff;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: 600;
+      color: #555;
+      display: block;
+      margin-bottom: 6px;
+    }
+    input[type="text"], input[type="number"], input[type="date"], textarea, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 14px;
+      color: #333;
+    }
+    textarea {
+      resize: vertical;
+      height: 80px;
+    }
+    input[type="file"] {
+      padding: 10px 5px;
+    }
+    .image-preview {
+      display: none;
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+    .optional-section {
+      display: none;
+      padding-top: 15px;
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: red;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .submit-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Post Your Product</h2>
+  <form id="sellersForm">
+
+    <!-- Product Category -->
+    <div class="form-group">
+      <label for="category">Product Category</label>
+      <select id="category" name="category" required>
+        <option value="">Select Category</option>
+        <option value="ebooks">Ebooks</option>
+        <option value="digital_courses">Digital Courses</option>
+        <option value="design_template">Design Template</option>
+        <option value="templates">Templates</option>
+        <option value="online_class">Online Classes</option>
+        <option value="others">Others</option>
+      </select>
+    </div>
+
+    <!-- Product Name -->
+    <div class="form-group">
+      <label for="productName">Product Name</label>
+      <input type="text" id="productName" name="productName" required>
+    </div>
+
+    <!-- Product Image -->
+    <div class="form-group">
+      <label for="productImage">Upload Product Image</label>
+      <input type="file" id="productImage" name="productImage" accept="image/*" required onchange="previewImage(event)">
+      <img id="imagePreview" class="image-preview" alt="Image Preview">
+    </div>
+
+    <!-- Product Description -->
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" name="description" placeholder="Describe your product..." required></textarea>
+    </div>
+
+    <!-- Product Price -->
+    <div class="form-group">
+      <label for="price">Price (Naira)</label>
+      <input type="number" id="price" name="price" min="0" required>
+    </div>
+
+    <!-- Optional: Table of Contents (only for ebooks, digital courses, or online classes) -->
+    <div class="form-group optional-section" id="tableOfContentsSection">
+      <label for="tableOfContents">Table of Contents (optional)</label>
+      <textarea id="tableOfContents" name="tableOfContents" placeholder="List chapters or sections..."></textarea>
+    </div>
+
+    <!-- Optional: Online Class Dates -->
+    <div class="optional-section" id="classDatesSection">
+      <div class="form-group">
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" name="startDate">
+      </div>
+      <div class="form-group">
+        <label for="endDate">End Date</label>
+        <input type="date" id="endDate" name="endDate">
+      </div>
+    </div>
+
+    <!-- Upload Product Files -->
+    <div class="form-group">
+      <label for="productFiles">Upload Product Files</label>
+      <input type="file" id="productFiles" name="productFiles" accept=".pdf,.doc,.zip,.rar,.mp4" multiple>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="submit-btn">Submit Product</button>
+
+  </form>
+</div>
+
+<script>
+  // Toggle additional fields based on category selection
+  document.getElementById('category').addEventListener('change', function () {
+    const category = this.value;
+    const tableOfContentsSection = document.getElementById('tableOfContentsSection');
+    const classDatesSection = document.getElementById('classDatesSection');
+
+    // Reset sections
+    tableOfContentsSection.style.display = 'none';
+    classDatesSection.style.display = 'none';
+
+    // Show sections based on selected category
+    if (category === 'ebooks' || category === 'digital_courses' || category === 'online_class') {
+      tableOfContentsSection.style.display = 'block';
+    }
+    if (category === 'online_class') {
+      classDatesSection.style.display = 'block';
+    }
+  });
+
+  // Preview the selected image
+  function previewImage(event) {
+    const imagePreview = document.getElementById('imagePreview');
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        imagePreview.src = e.target.result;
+        imagePreview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      imagePreview.style.display = 'none';
+    }
+  }
+</script>
+
+</body>
+</html>
